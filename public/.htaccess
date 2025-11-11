@@ -1,0 +1,18 @@
+# Turn off directory browsing for security
+Options -Indexes
+
+# Turn on the URL rewriting engine
+RewriteEngine On
+
+# --- Rule for redirecting to public/index.php ---
+
+# 1. If the requested filename is NOT a file...
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# 2. AND the requested filename is NOT a directory...
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# 3. THEN rewrite the request to public/index.php
+# The [L] flag means this is the last rule to apply.
+# The [QSA] flag appends any existing query string from the original request.
+RewriteRule ^(.*)$ public/index.php?url=$1 [L,QSA]
