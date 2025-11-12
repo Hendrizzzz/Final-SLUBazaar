@@ -13,13 +13,16 @@ class AuthController
         $this->db = $db;
     }
 
-    /**
-     * Shows the main landing/login page.
-     * This is the new entry point for unauthenticated users.
-     */
     public function showLandingPage(): void
     {
-        // Simply load the view. No data is needed from the database for this page.
+        // Check for success or error flash messages
+        $successMessage = $_SESSION['flash_success'] ?? null;
+        $errorMessage = $_SESSION['flash_error'] ?? null;
+        
+        // Clear them so they don't show again
+        unset($_SESSION['flash_success'], $_SESSION['flash_error']);
+        
+        // Load the view, making the messages available
         require __DIR__ . '/../views/user/user-landing-page.php';
     }
 
@@ -36,10 +39,34 @@ class AuthController
      */
     public function handleLogin(): void
     {
-        // Your existing login logic will go here.
-        // On success, redirect to the market:
-        // header('Location: /market');
-        // exit();
+        // 1. Get data from the form
+        $emailOrUsername = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        
+        // 2. Find the user in the database
+        $userModel = new User($this->db);
+        $user = $userModel->findByEmailOrUsername($emailOrUsername);
+
+        // 3. Verify the user and password
+        // The password_verify() function securely checks the submitted password against the stored hash.
+        if ($user && password_verify($password, $user['password_hash'])) {
+            
+            // 4. SUCCESS! Store user's ID in the session to log them in.
+            // This is the most important step for "remembering" the user.
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['username'] = $user['username'];
+
+            // 5. Redirect to the marketplace
+            header('Location: /market');
+            exit();
+
+        } else {
+            
+            // 6. FAILURE! Set an error message and redirect back to the login page.
+            $_SESSION['flash_error'] = 'Invalid email/username or password.';
+            header('Location: /');
+            exit();
+        }
     }
 
 
@@ -48,29 +75,28 @@ class AuthController
      */
     public function handleRegister(): void
     {
-        // 1. Get the form data
         $firstName = $_POST['first_name'] ?? '';
         $username = $_POST['username'] ?? '';
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        // 2. TODO: Server-side validation (e.g., check if email already exists)
-        
-        // 3. Hash the password for security. NEVER store plain text passwords.
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
-        // 4. Ask the User model to create the user in the database
         $userModel = new User($this->db);
         $result = $userModel->create($firstName, $username, $email, $passwordHash);
         
-        // 5. Redirect the user
         if ($result) {
-            // Redirect to the login page with a success message (you can add this later)
+            // SUCCESS! Set a success flash message in the session.
+            $_SESSION['flash_success'] = "Registration successful! You may now log in.";
+            
+            // Redirect back to the landing/login page
             header('Location: /');
             exit();
         } else {
-            // Handle registration failure (e.g., show an error message)
-            echo "Error: Registration failed. The username or email might already be taken.";
+            // You should also set an error flash message for failures
+            // $_SESSION['flash_error'] = "Registration failed. Username or email may already be in use.";
+            // For now, echoing an error is fine.
+            echo "Error: Registration failed.";
         }
     }
 

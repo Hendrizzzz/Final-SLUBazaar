@@ -27,6 +27,7 @@ $router = new Core\Router();
 $db = new Core\Database($config);
 
 
+
 // 3. ROUTE DEFINITION
 // =================================================================
 // Define the routes your application will respond to.
@@ -39,13 +40,21 @@ $router->addRoute('GET', '/logout', ['Controllers\AuthController', 'logout']);
 $router->addRoute('GET', '/register', ['Controllers\AuthController', 'showRegister']);
 $router->addRoute('POST', '/register', ['Controllers\AuthController', 'handleRegister']);
 
+
+
 // User-facing Routes
 $router->addRoute('GET', '/', ['Controllers\AuthController', 'showLandingPage']); 
-$router->addRoute('GET', '/user/market', ['Controllers\UserController', 'market']);
-$router->addRoute('GET', '/user/profile', ['Controllers\UserController', 'profile']);
-$router->addRoute('GET', '/user/settings', ['Controllers\UserController', 'settings']);
-$router->addRoute('GET', '/user/auction', ['Controllers\UserController', 'auction']); // Example: /user/auction?id=123
-$router->addRoute('GET', '/user/messages', ['Controllers\UserController', 'messages']);
+$router->addRoute('GET', '/market', ['Controllers\UserController', 'market']);
+$router->addRoute('GET', '/profile', ['Controllers\UserController', 'profile']);
+$router->addRoute('GET', '/settings', ['Controllers\UserController', 'settings']);
+$router->addRoute('GET', '/messages', ['Controllers\UserController', 'messages']);
+
+// Item Routes
+$router->addRoute('GET', '/items/create', ['Controllers\UserController', 'showCreateItemForm']);
+$router->addRoute('POST', '/items/create', ['Controllers\UserController', 'handleCreateItem']);
+$router->addRoute('GET', '/item/view', ['Controllers\UserController', 'auction']); 
+
+$router->addRoute('POST', '/bids/place', ['Controllers\UserController', 'handlePlaceBid']);
 
 // Admin Routes
 $router->addRoute('GET', '/admin/overview', ['Controllers\AdminController', 'overview']);
@@ -55,10 +64,13 @@ $router->addRoute('GET', '/admin/reports', ['Controllers\AdminController', 'repo
 $router->addRoute('GET', '/admin/analytics', ['Controllers\AdminController', 'analytics']);
 
 
+
+
+
 // 4. DISPATCHING THE ROUTE
 // =================================================================
 // Get the requested URI from the `url` query parameter that .htaccess provides.
-// e.g., for `example.com/user/profile`, $_GET['url'] will be 'user/profile'.
+// e.g., for `example.com/profile`, $_GET['url'] will be 'user/profile'.
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
 // Get the HTTP request method (e.g., 'GET', 'POST').

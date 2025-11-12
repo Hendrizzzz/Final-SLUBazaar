@@ -54,5 +54,35 @@ class User
         }
     }
     
-    // You will add other methods like find(), all(), etc. here later.
+    /**
+     * Finds a single user by their email or username.
+     *
+     * @param string $emailOrUsername
+     * @return array|false The user's data as an associative array, or false if not found.
+     */
+    public function findByEmailOrUsername(string $emailOrUsername)
+    {
+        $sql = "SELECT * FROM user WHERE email = :identifier OR username = :identifier";
+        
+        $statement = $this->db->query($sql, ['identifier' => $emailOrUsername]);
+        
+        return $statement->fetch();
+    }
+
+
+
+    
+    /**
+     * Finds a single user by their ID.
+     * @param int $userId
+     * @return array|false
+     */
+    public function findById(int $userId)
+    {
+        $sql = "SELECT user_id, username, first_name FROM user WHERE user_id = :user_id";
+        $statement = $this->db->query($sql, ['user_id' => $userId]);
+        return $statement->fetch();
+    }
+
+    
 }

@@ -8,11 +8,16 @@ use Controllers\UserController;
 
 class Router {
     
+
+
     /**
      * An array to store all the registered routes.
      * @var array
      */
     protected $routes = [];
+
+
+
 
     /**
      * Add a route to the routing table. This is the method that was missing.
@@ -27,6 +32,9 @@ class Router {
         // for fast lookups. The URI is normalized by removing slashes.
         $this->routes[strtoupper($method)][trim($uri, '/')] = $action;
     }
+
+
+
 
     /**
      * Find the matching route and dispatch it.
@@ -64,6 +72,9 @@ class Router {
             $this->abort(404, "404 Not Found: No route for '{$uri}'.");
         }
     }
+
+
+
     
     /**
      * A simple helper method to handle HTTP errors and stop execution.
@@ -79,4 +90,8 @@ class Router {
         echo $message; 
         exit();
     }
+
+
+
+    
 }

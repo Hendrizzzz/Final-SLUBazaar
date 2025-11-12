@@ -1,8 +1,7 @@
 <?php
 
-namespace Core; // Part of your application's Core namespace
+namespace Core; 
 
-// Use PHP's built-in, modern database access layer: PDO (PHP Data Objects)
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -15,6 +14,8 @@ class Database
      * @var PDO
      */
     public PDO $connection;
+
+
 
     /**
      * The constructor is called when we create a new Database object.
@@ -45,6 +46,8 @@ class Database
         }
     }
 
+
+
     /**
      * A secure method to prepare and execute a SQL query.
      * Using prepared statements is the ONLY way to prevent SQL injection.
@@ -64,4 +67,8 @@ class Database
         // 3. Return the statement object so the calling Model can fetch the results.
         return $statement;
     }
+
+
+
+    
 }

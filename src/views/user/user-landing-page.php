@@ -10,7 +10,6 @@
 <body>
     <div class="landing-wrapper">
         <div class="background-showcase">
-            <!-- This div is for the SLU building image background -->
             <div class="color-overlay"></div>
         </div>
 
@@ -23,6 +22,18 @@
             <section class="login-container">
                 <div class="login-box">
                     <h2>Log in</h2>
+
+                    <?php if (isset($errorMessage)): ?>
+                        <div class="alert alert-error">
+                            <?= htmlspecialchars($errorMessage) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($successMessage)): ?>
+                        <div class="alert alert-success">
+                            <?= htmlspecialchars($successMessage) ?>
+                        </div>
+                    <?php endif; ?>
                     
                     <form action="/login" method="POST" id="loginForm">
                         <div class="input-group">
