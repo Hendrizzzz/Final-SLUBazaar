@@ -1,0 +1,32 @@
+/* --- OVERVIEW PANEL STYLES --- */
+#today {
+    padding: 2rem 0rem 0rem 2rem ;
+    font-family: "Lalezar", sans-serif;
+    font-size: 3rem;
+}
+
+.values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 5rem;
+    padding-top: 5rem;
+    margin: 0px;
+}
+
+.values li {
+    list-style-type: none;
+}
+
+.values > * {
+    text-align: center;
+}
+
+.values p {
+    font-size: 1.5rem;
+    font-family: "Khula", sans-serif;
+}
+
+.values h1 {
+    font-size: 3rem;
+    font-family: "Lalezar", sans-serif;
+}

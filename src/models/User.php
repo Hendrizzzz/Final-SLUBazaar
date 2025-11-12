@@ -10,17 +10,15 @@ class User
      * The database connection object.
      * @var Database
      */
-    protected Database $db; // Make sure this property is defined
+    protected Database $db; // This property holds the connection
 
     /**
-     * THIS IS THE MISSING/INCORRECT PART.
-     * The constructor accepts a Database object (dependency injection).
+     * The constructor accepts the Database object and saves it.
      *
      * @param Database $db The database connection instance.
      */
     public function __construct(Database $db)
     {
-        // This line saves the database connection to the model's property
         $this->db = $db;
     }
 
@@ -35,10 +33,10 @@ class User
      */
     public function create(string $firstName, string $username, string $email, string $passwordHash): bool
     {
-        // This line (line 23) will now work because $this->db is a valid object
+        // This will now work because $this->db is a valid object
         try {
             $sql = "INSERT INTO user (first_name, username, email, password_hash) VALUES (:first_name, :username, :email, :password_hash)";
-            
+
             $this->db->query($sql, [
                 'first_name' => $firstName,
                 'username' => $username,
@@ -53,6 +51,7 @@ class User
             return false;
         }
     }
+
     
     /**
      * Finds a single user by their email or username.
@@ -85,4 +84,5 @@ class User
     }
 
     
+
 }

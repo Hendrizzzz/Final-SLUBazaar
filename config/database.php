@@ -20,6 +20,6 @@ return [
     'port'      => 3306,
     'dbname'    => 'SLUBazaar',
     'charset'   => 'utf8mb4',
-    'user'      => 'root',
-    'password'  => '', 
+    'user'      => 'slubazaar_user',
+    'password'  => 'carani18',
 ];

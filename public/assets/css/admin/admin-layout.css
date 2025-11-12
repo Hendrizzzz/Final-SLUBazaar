@@ -1,0 +1,178 @@
+/* --- MAIN LAYOUT SHELL STYLES --- */
+body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+body > * {
+    font-family: "Khula", sans-serif;
+}
+
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    /* This path was wrong, updated to new /assets/images/ path */
+    background-image: url("/assets/images/triangles2.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.title-tagline-box, .login-box {
+    flex: 1;
+}
+
+.title-tagline {
+    font-family: "Lalezar", sans-serif;
+    margin: 0;
+    padding: 2.25rem;
+    color: white;
+    top: 0;
+    left: 0;
+    display: flex;
+    gap: 1rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Added for readability */
+}
+
+.title-tagline img {
+    height: 8rem;
+}
+
+.title-tagline > * {
+    margin: 0;
+}
+
+.title-tagline h1 {
+    margin: 0;
+    font-size: 3rem;
+}
+
+.title-tagline p {
+    font-family: "Khula", sans-serif;
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+/* --- NAVIGATION TABS (FROM LAYOUT) --- */
+#tabs {
+    display: flex;
+    margin-bottom: 0px;
+    padding-left: 1.25%;
+}
+
+#tabs li {
+    font-family: "Khula", sans-serif;
+    color: var(--muted-text-color);
+    font-weight: bold;
+    list-style-type: none;
+    font-size: 1.5rem;
+    padding: .5rem 2rem 0rem 2rem;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: var(--muted-color);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Styling for the new <a> tags */
+#tabs li a {
+    text-decoration: none;
+    color: inherit; /* Inherit color from the <li> */
+    display: block;
+}
+
+#tabs li:not(.active-tab):hover {
+    cursor: pointer;
+    background-color: #c0c0c0;
+}
+
+#tabs li.active-tab {
+    background-color: var(--primary-bg-color);
+    color: black;
+}
+
+/* --- MAIN CONTENT AREA --- */
+.tab-contents {
+    background-color: var(--primary-bg-color);
+    margin-left: 1.25%;
+    width: 97.5%;
+    height: 70.5vh;
+    border-radius: 20px;
+    border-top-left-radius: 0px;
+    /* Add overflow for safety */
+    overflow-y: auto;
+    box-sizing: border-box; /* Ensures padding is included in height */
+}
+
+.tab-contents h1 {
+    margin: 0px;
+}
+
+/* --- STYLES FOR THE CUSTOM MODAL (Used by JS) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.modal-overlay.visible {
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 24px 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.modal-content p {
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0 0 24px 0;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.modal-btn-cancel {
+    background-color: #f1f1f1;
+    color: #555;
+}
+.modal-btn-cancel:hover {
+    background-color: #e1e1e1;
+}
+
+.modal-btn-confirm {
+    background-color: #e53e3e; /* Red for delete */
+    color: white;
+}
+.modal-btn-confirm:hover {
+    background-color: #c53030;
+}
