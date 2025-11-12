@@ -116,4 +116,35 @@ class Item
             return true;
         } catch (\PDOException $e) { return false; }
     }
+
+
+
+    /**
+     * Finds all active items listed by a specific seller.
+     * @param int $sellerId
+     * @return array
+     */
+    public function findActiveBySellerId(int $sellerId): array
+    {
+        $sql = "SELECT * FROM item WHERE seller_id = :seller_id AND status = 'Active' ORDER BY auction_end ASC";
+        $statement = $this->db->query($sql, ['seller_id' => $sellerId]);
+        return $statement->fetchAll();
+    }
+
+    
+    /**
+     * Finds all completed items sold by a specific seller, along with the winning price.
+     * @param int $sellerId
+     * @return array
+     */
+    public function findSoldBySellerId(int $sellerId): array
+    {
+        $sql = "SELECT i.item_id, i.title,
+                       (SELECT MAX(b.bid_amount) FROM bid b WHERE b.item_id = i.item_id) AS winning_price
+                FROM item i
+                WHERE i.seller_id = :seller_id AND i.status = 'Completed'
+                ORDER BY i.auction_end DESC";
+        $statement = $this->db->query($sql, ['seller_id' => $sellerId]);
+        return $statement->fetchAll();
+    }
 }
