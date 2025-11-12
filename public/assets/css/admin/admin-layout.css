@@ -15,7 +15,8 @@ body > * {
     width: 100%;
     height: 100%;
     /* This path was wrong, updated to new /assets/images/ path */
-    background-image: url("/assets/images/triangles2.jpg");
+    background-image: url("/assets/images/triangles2.png");
+    z-index: -1;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
