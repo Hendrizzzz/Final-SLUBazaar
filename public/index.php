@@ -40,7 +40,7 @@ $router->addRoute('GET', '/register', ['Controllers\AuthController', 'showRegist
 $router->addRoute('POST', '/register', ['Controllers\AuthController', 'handleRegister']);
 
 // User-facing Routes
-$router->addRoute('GET', '/', ['Controllers\UserController', 'market']); // Homepage
+$router->addRoute('GET', '/', ['Controllers\AuthController', 'showLandingPage']); 
 $router->addRoute('GET', '/user/market', ['Controllers\UserController', 'market']);
 $router->addRoute('GET', '/user/profile', ['Controllers\UserController', 'profile']);
 $router->addRoute('GET', '/user/settings', ['Controllers\UserController', 'settings']);

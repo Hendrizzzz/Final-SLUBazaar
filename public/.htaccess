@@ -4,15 +4,14 @@ Options -Indexes
 # Turn on the URL rewriting engine
 RewriteEngine On
 
-# --- Rule for redirecting to public/index.php ---
+# --- Rule for front-controller ---
 
-# 1. If the requested filename is NOT a file...
+# If the requested filename is NOT a file...
 RewriteCond %{REQUEST_FILENAME} !-f
 
-# 2. AND the requested filename is NOT a directory...
+# AND the requested filename is NOT a directory...
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# 3. THEN rewrite the request to public/index.php
-# The [L] flag means this is the last rule to apply.
-# The [QSA] flag appends any existing query string from the original request.
-RewriteRule ^(.*)$ public/index.php?url=$1 [L,QSA]
+# THEN rewrite the request to index.php
+# The path to index.php is simpler because we are already in the public directory.
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]

@@ -64,25 +64,4 @@ class Database
         // 3. Return the statement object so the calling Model can fetch the results.
         return $statement;
     }
-}```
-
-#### Key Takeaways:
-*   **It's active:** It performs the work of connecting and querying.
-*   **It's secure:** It uses prepared statements (`prepare()` and `execute()`) which is the industry standard for preventing SQL injection attacks.
-*   **It's robust:** It uses a `try...catch` block to handle connection errors gracefully.
-*   **It's the single gateway:** Your Models will talk to this class, not directly to PDO. This centralizes all your database interaction logic.
-
-### How They Work Together (The Final Connection)
-
-Somewhere in your application (like a Controller or a central bootstrap file), you connect the two:
-
-```php
-// 1. Load the recipe card (the configuration data)
-$config = require __DIR__ . '/../../config/database.php';
-
-// 2. Hire the Chef (create the Database object), and give it the recipe.
-$db = new Core\Database($config);
-
-// 3. Now, you can use the $db object to run secure queries.
-$statement = $db->query("SELECT * FROM USER WHERE user_id = :id", ['id' => 123]);
-$user = $statement->fetch(); // Fetch the first result
+}

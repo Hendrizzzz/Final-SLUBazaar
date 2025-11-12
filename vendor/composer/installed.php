@@ -3,7 +3,7 @@
         'name' => 'your-name/final-slubazaar',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7e51c7ffbab93e81aad3289d568fd112e0e997ae',
+        'reference' => 'da4dd7150d91f5f7765efbf9c08a1b83d8ee3278',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'your-name/final-slubazaar' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7e51c7ffbab93e81aad3289d568fd112e0e997ae',
+            'reference' => 'da4dd7150d91f5f7765efbf9c08a1b83d8ee3278',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
