@@ -56,6 +56,7 @@ class UserController {
         $itemModel = new Item($this->db);
         $userModel = new User($this->db);
         $bidModel = new Bid($this->db);
+        $itemImageModel = new ItemImage($this->db);
 
         $item = $itemModel->findById((int)$itemId);
         if (!$item) { http_response_code(404); echo "Error: Item not found."; exit(); }
@@ -63,6 +64,13 @@ class UserController {
         $seller = $userModel->findById($item['seller_id']);
 
         $bidHistory = $bidModel->findBidsByItemId((int)$itemId);
+        
+        // Get images for this item (ensure it's always an array)
+        $itemImagesStmt = $itemImageModel->getAllImagesByItemId((int)$itemId);
+        $itemImages = [];
+        if ($itemImagesStmt && is_object($itemImagesStmt)) {
+            $itemImages = $itemImagesStmt->fetchAll();
+        }
         
         $successMessage = $_SESSION['flash_success'] ?? null;
         unset($_SESSION['flash_success']);
@@ -163,23 +171,47 @@ class UserController {
         
         // If the check passes, create the item
         $description = $_POST['description'] ?? '';
+        $photos = $_FILES['photos'] ?? null;
         $startingBid = $_POST['starting_bid'] ?? 0;
         $durationDays = $_POST['duration'] ?? 1;
         $auctionEnd = (new \DateTime())->add(new \DateInterval("P{$durationDays}D"))->format('Y-m-d H:i:s');
+        $category = $_POST['category'] ?? '';
         
-        $newItemId = $itemModel->create($sellerId, $title, $description, $startingBid, $auctionEnd);
+        $newItemId = $itemModel->create($sellerId, $title, $description, $startingBid, $auctionEnd, $category);
 
-        if ($newItemId) {
-            // --- SUCCESS MESSAGE ---
-            $_SESSION['flash_success'] = "Your new listing has been successfully created!";
-            header('Location: /item/view?id=' . $newItemId);
-            exit();
-        } else {
-            // --- GENERAL FAILURE MESSAGE ---
-            $_SESSION['flash_error'] = "There was an unexpected error creating your listing.";
-            header('Location: /items/create');
-            exit();
+       if ($newItemId) {
+    // Process uploaded images
+    $photos = $_FILES['photos'] ?? null;
+    
+    if ($photos && is_array($photos['name']) && count($photos['name']) > 0) {
+        $itemImageModel = new ItemImage($this->db);
+        
+        // Create uploads directory if it doesn't exist
+        $uploadDir = __DIR__ . '/../../public/uploads/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
         }
+        
+        // Process each uploaded photo
+        for ($i = 0; $i < count($photos['name']); $i++) {
+            if ($photos['error'][$i] === UPLOAD_ERR_OK) {
+                $fileName = uniqid() . '_' . basename($photos['name'][$i]);
+                $targetPath = $uploadDir . $fileName;
+                
+                // Move uploaded file to destination
+                if (move_uploaded_file($photos['tmp_name'][$i], $targetPath)) {
+                    // Save image path to database
+                    $itemImageModel->addImage($newItemId, '/uploads/' . $fileName);
+                }
+            }
+        }
+    }
+    
+    // --- SUCCESS MESSAGE ---
+    $_SESSION['flash_success'] = "Your new listing has been successfully created!";
+    header('Location: /item/view?id=' . $newItemId);
+    exit();
+}
     }
 
 
@@ -244,9 +276,23 @@ class UserController {
         exit();
     }
 
-
-
-
-
+ /**
+ * Handles the search functionality for the market page
+ */
+public function search() {
+    $query = $_GET['query'] ?? '';
+    
+    if (empty($query)) {
+        // Redirect to market page if no query
+        header('Location: /market');
+        exit();
+    }
+    
+    $itemModel = new Item($this->db);
+    $liveAuctions = $itemModel->search($query); // Changed variable name to match view
+    
+    require __DIR__ . '/../views/user/user-market.php';
+}
+    
 
 }

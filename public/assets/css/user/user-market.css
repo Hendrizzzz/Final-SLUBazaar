@@ -218,8 +218,6 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Add an image of the boots for demo */
-    background-image: url('https://i.imgur.com/eBv6xNt.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -306,7 +304,6 @@ body, html {
     background-color: var(--medium-grey);
     border-radius: 4px;
     flex-shrink: 0;
-    background-image: url('https://i.imgur.com/eBv6xNt.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

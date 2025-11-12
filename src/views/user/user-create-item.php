@@ -59,6 +59,17 @@
                                         <input type="number" id="duration" name="duration" min="1" max="14" value="7" required>
                                     </div>
                                 </div>
+                                 <div class="form-group">
+                                    <label for="category">Category:</label>
+                                    <select id="category" name="category" required>
+                                        <option value="">Select a category</option>
+                                        <option value="books">General</option>
+                                        <option value="clothing">Books</option>
+                                        <option value="electronics">Electronics</option>
+                                        <option value="furniture">Toys</option>
+                                        <option value="toys">Others</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-right">
                                 <label>Insert Photos:</label>

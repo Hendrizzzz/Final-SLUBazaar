@@ -6,6 +6,38 @@ document.addEventListener('DOMContentLoaded', function() {
         // ... (The countdown timer code remains the same as before)
     }
 
+    // --- Image Gallery Logic ---
+    const thumbnails = document.querySelectorAll('.thumb');
+    const mainImageContainer = document.querySelector('.main-image');
+    
+    if (thumbnails.length > 0 && mainImageContainer) {
+        // Set up click handlers for thumbnails
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked thumbnail
+                this.classList.add('active');
+                
+                // Get the image source from the clicked thumbnail
+                const thumbImg = this.querySelector('img');
+                if (thumbImg) {
+                    // Clear the main image container
+                    mainImageContainer.innerHTML = '';
+                    
+                    // Create new image element
+                    const mainImg = document.createElement('img');
+                    mainImg.src = thumbImg.src;
+                    mainImg.alt = thumbImg.alt;
+                    
+                    // Add to main image container
+                    mainImageContainer.appendChild(mainImg);
+                }
+            });
+        });
+    }
+
     // --- NEW: Bid Modal Logic ---
     const openModalBtn = document.getElementById('openBidModalBtn');
     const closeModalBtn = document.getElementById('closeBidModalBtn');

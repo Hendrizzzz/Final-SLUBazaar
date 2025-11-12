@@ -53,8 +53,9 @@ $router->addRoute('GET', '/messages', ['Controllers\UserController', 'messages']
 $router->addRoute('GET', '/items/create', ['Controllers\UserController', 'showCreateItemForm']);
 $router->addRoute('POST', '/items/create', ['Controllers\UserController', 'handleCreateItem']);
 $router->addRoute('GET', '/item/view', ['Controllers\UserController', 'auction']); 
-
+$router->addRoute('GET', '/search', ['Controllers\UserController', 'search']);
 $router->addRoute('POST', '/bids/place', ['Controllers\UserController', 'handlePlaceBid']);
+// $router->addRoute('POST', '/items/create', ['Controllers\UserController', 'handleCreateItem']);
 
 // Admin Routes
 $router->addRoute('GET', '/admin/overview', ['Controllers\AdminController', 'overview']);
@@ -71,7 +72,7 @@ $router->addRoute('GET', '/admin/analytics', ['Controllers\AdminController', 'an
 // =================================================================
 // Get the requested URI from the `url` query parameter that .htaccess provides.
 // e.g., for `example.com/profile`, $_GET['url'] will be 'user/profile'.
-$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$uri = trim($_GET['url'] ?? '', '/');
 
 // Get the HTTP request method (e.g., 'GET', 'POST').
 $method = $_SERVER['REQUEST_METHOD'];

@@ -13,5 +13,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # THEN rewrite the request to index.php
-# The path to index.php is simpler because we are already in the public directory.
 RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]

@@ -18,7 +18,7 @@
 return [
     'host'      => '127.0.0.1',
     'port'      => 3306,
-    'dbname'    => 'SLUBazaar',
+    'dbname'    => 'auction_db',//  Change this in my local environment 
     'charset'   => 'utf8mb4',
     'user'      => 'root',
     'password'  => '', 

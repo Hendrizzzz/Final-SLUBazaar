@@ -41,14 +41,20 @@
                         <button class="tab-link" data-tab="my-watchlist">My Watchlist</button>
                     </nav>
 
-                    <div class="search-filter-bar">
-                        <div class="search-bar">
-                            <i class="fas fa-search"></i>
-                            <input type="text" placeholder="Search">
-                        </div>
-                        <button class="filter-btn">
-                            <i class="fas fa-filter"></i> Filters
-                        </button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <?php
+                        $isSearch = !empty($_GET['query']);
+                        $searchQuery = $_GET['query'] ?? '';
+                        if ($isSearch): ?>
+                            <form method="GET" action="/search" style="display: flex; width: 100%;">
+                                <input type="text" name="query" placeholder="Search" value="<?= htmlspecialchars($searchQuery) ?>">
+                            </form>
+                        <?php else: ?>
+                            <form method="GET" action="/search" style="display: flex; width: 100%;">
+                                <input type="text" name="query" placeholder="Search">
+                            </form>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Tab Content Panels -->
@@ -59,7 +65,7 @@
                                     <div class="item-card">
                                         <a href="/item/view?id=<?= $item['item_id'] ?>" class="card-link">
                                             <div class="item-image-placeholder">
-                                                <!-- You would load the actual item image here -->
+                                                <img src="<?= htmlspecialchars($item['image_url'] ?? '/assets/images/default-item.png') ?>" alt="Item"> <!-- Need to be fix inorder to show the items imagine-->
                                             </div>
                                             <div class="item-info">
                                                 <h3 class="item-name"><?= htmlspecialchars($item['title']) ?></h3>
@@ -84,6 +90,7 @@
                                     <span class="col-id">Item ID</span>
                                     <span class="col-name">Item Name</span>
                                     <span class="col-status">Status</span>
+                                    <span class="col-category">Category</span>
                                     <span class="col-bid">Submitted Bid</span>
                                 </div>
                                 <?php foreach ($myBids as $bid): ?>

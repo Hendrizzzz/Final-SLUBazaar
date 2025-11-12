@@ -46,8 +46,24 @@
                 <div class="auction-container">
                      <div class="auction-top-panel">
                         <div class="gallery">
-                            <div class="thumbnails"><div class="thumb active"></div><div class="thumb"></div><div class="thumb"></div></div>
-                            <div class="main-image"></div>
+                            <div class="thumbnails">
+                                <?php if (!empty($itemImages)): ?>
+                                    <?php foreach ($itemImages as $index => $image): ?>
+                                        <div class="thumb <?= $index === 0 ? 'active' : '' ?>" data-index="<?= $index ?>">
+                                            <img src="<?= htmlspecialchars($image['image_url']) ?>" alt="Thumbnail">
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <div class="thumb active"></div>
+                                    <div class="thumb"></div>
+                                    <div class="thumb"></div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="main-image">
+                                <?php if (!empty($itemImages)): ?>
+                                    <img src="<?= htmlspecialchars($itemImages[0]['image_url']) ?>" alt="Main image">
+                                <?php endif; ?>
+                            </div>
                         </div>
                         <div class="bidding-panel">
                             <h2><?= htmlspecialchars($item['title']) ?></h2>
@@ -55,6 +71,8 @@
                                 <div><label>Current Bid Price</label><span>₱ <?= number_format($item['current_bid'] ?? $item['starting_bid'], 2) ?></span></div>
                                 <div><label>Next Minimum Bid</label><span>₱ <?= number_format(($item['current_bid'] ?? $item['starting_bid']) + 1.00, 2) ?></span></div>
                                 <div><label>Time Remaining</label><span class="countdown" data-end-time="<?= $item['auction_end'] ?>">--:--:--</span></div>
+                                <div><label>Item Category</label><span class="item-category"><?= $item['category'] ?></span></div>
+                                <div><label>Item Status</label><span class="item-status"><?= $item['status'] ?></span></div>
                                 <button id="openBidModalBtn" class="submit-bid-btn">Submit a Bid</button>
                             </div>
                         </div>

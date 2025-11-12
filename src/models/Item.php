@@ -31,19 +31,20 @@ class Item
      * Creates a new item listing in the database.
      * @return int|false The ID of the new item, or false on failure.
      */
-    public function create(int $sellerId, string $title, string $description, float $startingBid, string $auctionEnd)
+    public function create(int $sellerId, string $title, string $description, float $startingBid, string $auctionEnd, string $category)
     {
         try {
             $sql = "INSERT INTO item (seller_id, title, description, starting_bid, auction_end, category) 
-                    VALUES (:seller_id, :title, :description, :starting_bid, :auction_end, 'Default')"; // Added a default category
+                    VALUES (:seller_id, :title, :description, :starting_bid, :auction_end, :category)"; // Added a category
 
             $this->db->query($sql, [
-                'seller_id' => $sellerId,
-                'title' => $title,
-                'description' => $description,
-                'starting_bid' => $startingBid,
-                'auction_end' => $auctionEnd
-            ]);
+            'seller_id' => $sellerId,
+            'title' => $title,
+            'description' => $description,
+            'starting_bid' => $startingBid,
+            'auction_end' => $auctionEnd,
+            'category' => $category
+        ]);
             
             // Return the ID of the row we just inserted
             return $this->db->connection->lastInsertId();
@@ -71,6 +72,18 @@ class Item
         // fetch() gets a single row. If no row is found, it returns false automatically.
         return $statement->fetch();
     }
+
+    /**
+     * Search for items by title or description
+     * @param string $query The search query
+     * @return array The matching items
+     */
+    public function search(string $query): array
+{
+    $sql = "SELECT * FROM item WHERE (title LIKE :query OR description LIKE :query) AND status = 'Active'";
+    $statement = $this->db->query($sql, ['query' => "%$query%"]);
+    return $statement->fetchAll();
+}
 
 
 

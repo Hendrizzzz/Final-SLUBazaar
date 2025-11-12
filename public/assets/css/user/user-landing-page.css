@@ -33,8 +33,8 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    /* You need to add a blurred background image of an SLU building here */
-    background: url('/assets/images/SLU Bakakeng Campus Shot.jpg') no-repeat center center; 
+    /* Removed the specific background image */
+    background: var(--brand-blue);
     background-size: cover;
     z-index: 1;
 }

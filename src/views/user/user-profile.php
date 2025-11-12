@@ -57,7 +57,19 @@
                             <?php if (!empty($activeListings)): ?>
                                 <?php foreach ($activeListings as $item): ?>
                                     <div class="item-card">
-                                        <!-- Item card content -->
+                                        <div class="item-image-placeholder">
+                                            <img src="<?= htmlspecialchars($item['image_url'] ?? '/assets/images/default-item.png') ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+                                        </div>
+                                        <div class="item-info">
+                                            <h3 class="item-name"><?= htmlspecialchars($item['title']) ?></h3>
+                                            <div class="item-details">
+                                                <span class="item-bid">₱ <?= number_format($item['current_bid'] ?? $item['starting_bid'], 2) ?></span>
+                                                <span class="item-category"><?= htmlspecialchars($item['category'] ?? 'General') ?></span>
+                                            </div>
+                                            <div class="item-actions">
+                                                <a href="/item/view?id=<?= $item['item_id'] ?>" class="btn-view">View</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
@@ -88,6 +100,17 @@
                             </div>
                         <?php else: ?>
                             <p class="no-items-message">You have not sold any items yet.</p>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div id="bid-history" class="tab-content">
+                         <!-- Reusing the bid history list from the market page -->
+                        <?php if (!empty($bidHistory)): ?>
+                            <div class="bids-list">
+                                 <!-- The PHP loop for bids would go here -->
+                            </div>
+                        <?php else: ?>
+                            <p class="no-items-message">You haven't placed any bids yet.</p>
                         <?php endif; ?>
                     </div>
                     
