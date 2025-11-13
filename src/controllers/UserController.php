@@ -78,10 +78,6 @@ class UserController {
         require __DIR__ . '/../views/user/user-auction.php';
     }
 
-
-
-
-
     /**
      * Displays the user's messages and conversation list.
      */
@@ -207,16 +203,11 @@ class UserController {
         }
     }
     
-    // --- SUCCESS MESSAGE ---
     $_SESSION['flash_success'] = "Your new listing has been successfully created!";
     header('Location: /item/view?id=' . $newItemId);
     exit();
 }
     }
-
-
-
-
 
     /**
      * Handles the POST request from the "Place Bid" form.
@@ -293,6 +284,119 @@ public function search() {
     
     require __DIR__ . '/../views/user/user-market.php';
 }
-    
 
+/**
+ * Handles the Edit Item form submission.
+ */
+public function handleEditItem(): void
+{
+    if (!isset($_SESSION['user_id'])) { 
+        header('Location: /');
+        exit(); 
+    }
+    
+    $itemId = $_POST['item_id'] ?? null;
+    
+    // First, check if the user owns this item
+    $itemModel = new Item($this->db);
+    $item = $itemModel->findById((int)$itemId);
+    
+    if (!$item || $item['seller_id'] != $_SESSION['user_id']) {
+        $_SESSION['flash_error'] = "You don't have permission to edit this item.";
+        header('Location: /listings/active');
+        exit();
+    }
+    
+    $title = $_POST['title'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $startingBid = $_POST['starting_bid'] ?? 0;
+    $durationDays = $_POST['duration'] ?? 1;
+    $auctionEnd = (new \DateTime())->add(new \DateInterval("P{$durationDays}D"))->format('Y-m-d H:i:s');
+    $category = $_POST['category'] ?? '';
+    
+    $itemModel->update($itemId, $title, $description, $startingBid, $auctionEnd, $category);
+    
+    $_SESSION['flash_success'] = "Your item has been successfully updated!";
+    header('Location: /listings/active');
+    exit();
+}
+
+/**
+ * Deletes an item.
+ */
+public function deleteItem(): void
+{
+    if (!isset($_SESSION['user_id'])) { 
+        header('Location: /');
+        exit(); 
+    }
+    
+    $itemId = $_POST['item_id'] ?? null;
+    
+    // First, check if the user owns this item
+    $itemModel = new Item($this->db);
+    $item = $itemModel->findById((int)$itemId);
+    
+    if (!$item || $item['seller_id'] != $_SESSION['user_id']) {
+        $_SESSION['flash_error'] = "You don't have permission to delete this item.";
+        header('Location: /listings/active');
+        exit();
+    }
+    
+    $itemModel->deleteItembyId((int)$itemId);
+    
+    $_SESSION['flash_success'] = "Your item has been successfully deleted!";
+    header('Location: /listings/active');
+    exit();
+}
+
+/**
+ * Handles the active listings functionality.
+ */
+public function activeListings(): void
+{
+    if (!isset($_SESSION['user_id'])) { 
+        header('Location: /');
+        exit(); 
+    }
+    
+    $userId = $_SESSION['user_id'];
+    $itemModel = new Item($this->db);
+    $activeListings = $itemModel->findActiveBySellerId($userId);
+    
+    require __DIR__ . '/../views/user/user-active-listings.php';
+}
+
+/**
+ * Handles the update item functionality.
+ */
+
+
+/**
+ * Handles the edit item functionality.
+ */
+public function showEditItemForm(): void
+{
+    if (!isset($_SESSION['user_id'])) { 
+        header('Location: /');
+        exit(); 
+    }
+    
+    $itemId = $_GET['id'] ?? null;
+    if (!$itemId) { 
+        header('Location: /listings/active');
+        exit(); 
+    }
+    
+    $itemModel = new Item($this->db);
+    $item = $itemModel->findById((int)$itemId);
+    
+    // Ensure the user owns this item
+    if (!$item || $item['seller_id'] != $_SESSION['user_id']) {
+        header('Location: /listings/active');
+        exit();
+    }
+    
+    require __DIR__ . '/../views/user/user-edit-item.php';
+}
 }

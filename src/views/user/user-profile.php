@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
     <div class="main-container">
         <!-- Reusable Sidebar -->
@@ -20,7 +22,7 @@
                 <a href="/messages" class="nav-link" title="Messages"><i class="fas fa-paper-plane"></i></a>
             </div>
             <div class="sidebar-bottom">
-                 <a href="/logout" class="nav-link" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <a href="/logout" class="nav-link" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
             </div>
         </nav>
 
@@ -42,13 +44,16 @@
                         </div>
                         <a href="/settings" class="edit-profile-btn">Edit Profile</a>
                     </header>
-                    
+
                     <!-- Tab Navigation -->
                     <nav class="sub-nav">
                         <button class="tab-link active-tab" data-tab="active-listings">Active Listings</button>
                         <button class="tab-link" data-tab="sold-items">Sold Items</button>
                         <button class="tab-link" data-tab="bid-history">Bid History</button>
                     </nav>
+                    <div style="text-align: right; margin-bottom: 15px;">
+                        <a href="/listings/active" class="edit-profile-btn">Manage All Active Listings</a>
+                    </div>
 
                     <!-- Tab Content Panels -->
                     <div id="active-listings" class="tab-content active-content">
@@ -68,6 +73,7 @@
                                             </div>
                                             <div class="item-actions">
                                                 <a href="/item/view?id=<?= $item['item_id'] ?>" class="btn-view">View</a>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -77,9 +83,9 @@
                             <?php endif; ?>
                         </div>
                     </div>
-                    
+
                     <div id="sold-items" class="tab-content">
-                         <!-- Content for Sold Items, from your UI -->
+                        <!-- Content for Sold Items, from your UI -->
                         <?php if (!empty($soldItems)): ?>
                             <div class="items-list">
                                 <div class="list-header">
@@ -102,23 +108,23 @@
                             <p class="no-items-message">You have not sold any items yet.</p>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div id="bid-history" class="tab-content">
-                         <!-- Reusing the bid history list from the market page -->
+                        <!-- Reusing the bid history list from the market page -->
                         <?php if (!empty($bidHistory)): ?>
                             <div class="bids-list">
-                                 <!-- The PHP loop for bids would go here -->
+                                <!-- The PHP loop for bids would go here -->
                             </div>
                         <?php else: ?>
                             <p class="no-items-message">You haven't placed any bids yet.</p>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div id="bid-history" class="tab-content">
-                         <!-- Reusing the bid history list from the market page -->
+                        <!-- Reusing the bid history list from the market page -->
                         <?php if (!empty($bidHistory)): ?>
                             <div class="bids-list">
-                                 <!-- The PHP loop for bids would go here -->
+                                <!-- The PHP loop for bids would go here -->
                             </div>
                         <?php else: ?>
                             <p class="no-items-message">You haven't placed any bids yet.</p>
@@ -130,4 +136,5 @@
     </div>
     <script src="/assets/js/user/user-profile.js"></script>
 </body>
+
 </html>

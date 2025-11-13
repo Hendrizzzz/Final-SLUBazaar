@@ -43,7 +43,7 @@ $router->addRoute('POST', '/register', ['Controllers\AuthController', 'handleReg
 
 
 // User-facing Routes
-$router->addRoute('GET', '/', ['Controllers\AuthController', 'showLandingPage']); 
+$router->addRoute('GET', '/', ['Controllers\AuthController', 'showLandingPage']);
 $router->addRoute('GET', '/market', ['Controllers\UserController', 'market']);
 $router->addRoute('GET', '/profile', ['Controllers\UserController', 'profile']);
 $router->addRoute('GET', '/settings', ['Controllers\UserController', 'settings']);
@@ -52,16 +52,18 @@ $router->addRoute('GET', '/messages', ['Controllers\UserController', 'messages']
 // Item Routes
 $router->addRoute('GET', '/items/create', ['Controllers\UserController', 'showCreateItemForm']);
 $router->addRoute('POST', '/items/create', ['Controllers\UserController', 'handleCreateItem']);
-$router->addRoute('GET', '/item/view', ['Controllers\UserController', 'auction']); 
+$router->addRoute('GET', '/listings/active', ['Controllers\UserController', 'activeListings']);
+$router->addRoute('GET', '/item/view', ['Controllers\UserController', 'auction']);
 $router->addRoute('GET', '/search', ['Controllers\UserController', 'search']);
 $router->addRoute('POST', '/bids/place', ['Controllers\UserController', 'handlePlaceBid']);
-// $router->addRoute('POST', '/items/create', ['Controllers\UserController', 'handleCreateItem']);
+$router->addRoute('GET', '/items/edit', ['Controllers\UserController', 'showEditItemForm']);
+$router->addRoute('POST', '/items/update', ['Controllers\UserController', 'handleEditItem']);
+$router->addRoute('POST', '/items/delete', ['Controllers\UserController', 'deleteItem']);
 
 // Admin Routes
 $router->addRoute('GET', '/admin/overview', ['Controllers\AdminController', 'overview']);
 $router->addRoute('GET', '/admin/users', ['Controllers\AdminController', 'users']);
-$router->addRoute('GET', '/admin/listings', ['Controllers\AdminController', 'listings']);
-$router->addRoute('GET', '/admin/reports', ['Controllers\AdminController', 'reports']);
+$router->addRoute('GET', '/admin/listings', ['Contro..dminController', 'reports']);
 $router->addRoute('GET', '/admin/analytics', ['Controllers\AdminController', 'analytics']);
 
 

@@ -26,7 +26,6 @@
         <main class="content-wrapper">
             <div class="background-overlay"></div>
             <div class="content">
-
                 <?php 
                     $successMessage = $_SESSION['flash_success'] ?? null;
                     $errorMessage = $_SESSION['flash_error'] ?? null;

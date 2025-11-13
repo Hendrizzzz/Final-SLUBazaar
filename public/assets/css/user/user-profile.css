@@ -32,10 +32,10 @@
 .star-rating {
     font-size: 1.1rem;
     color: var(--brand-yellow);
-}
+/* }
 .star-rating .fa-star {
     /* Full star style */
-}
+} */
 .star-rating .far.fa-star {
     color: var(--medium-grey); /* Empty star style */
 }
@@ -82,4 +82,39 @@
     align-items: center;
     gap: 15px;
     font-weight: 500;
+}
+
+/* Item actions styling */
+.item-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.item-actions a, .item-actions button {
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+}
+
+.item-actions .btn-view {
+    background-color: var(--brand-blue);
+    color: white;
+}
+
+.item-actions .btn-edit {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+
+.item-actions .btn-delete {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.item-actions a:hover, .item-actions button:hover {
+    opacity: 0.9;
 }

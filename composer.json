@@ -3,12 +3,14 @@
     "description": "The final SLU Bazaar web application project.",
     "type": "project",
     "license": "proprietary",
-    "require": {},
     "autoload": {
         "psr-4": {
             "Controllers\\": "src/controllers/",
             "Core\\": "src/core/",
             "Models\\": "src/models/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
     }
 }

@@ -8,7 +8,8 @@ class Item
 {
     protected $db;
 
-    public function __construct(Database $db) {
+    public function __construct(Database $db)
+    {
         $this->db = $db;
     }
 
@@ -20,9 +21,9 @@ class Item
     {
         // Fetches items where the auction has not ended and status is 'Active'
         $sql = "SELECT * FROM item WHERE status = 'Active' AND auction_end > NOW() ORDER BY auction_end ASC";
-        
+
         $statement = $this->db->query($sql);
-        
+
         return $statement->fetchAll();
     }
 
@@ -38,17 +39,16 @@ class Item
                     VALUES (:seller_id, :title, :description, :starting_bid, :auction_end, :category)"; // Added a category
 
             $this->db->query($sql, [
-            'seller_id' => $sellerId,
-            'title' => $title,
-            'description' => $description,
-            'starting_bid' => $startingBid,
-            'auction_end' => $auctionEnd,
-            'category' => $category
-        ]);
-            
+                'seller_id' => $sellerId,
+                'title' => $title,
+                'description' => $description,
+                'starting_bid' => $startingBid,
+                'auction_end' => $auctionEnd,
+                'category' => $category
+            ]);
+
             // Return the ID of the row we just inserted
             return $this->db->connection->lastInsertId();
-
         } catch (\PDOException $e) {
             error_log($e->getMessage());
             return false;
@@ -65,10 +65,10 @@ class Item
     public function findById(int $itemId)
     {
         $sql = "SELECT * FROM item WHERE item_id = :item_id";
-        
+
         // Execute the query, binding the item_id to prevent SQL injection
         $statement = $this->db->query($sql, ['item_id' => $itemId]);
-        
+
         // fetch() gets a single row. If no row is found, it returns false automatically.
         return $statement->fetch();
     }
@@ -79,11 +79,11 @@ class Item
      * @return array The matching items
      */
     public function search(string $query): array
-{
-    $sql = "SELECT * FROM item WHERE (title LIKE :query OR description LIKE :query) AND status = 'Active'";
-    $statement = $this->db->query($sql, ['query' => "%$query%"]);
-    return $statement->fetchAll();
-}
+    {
+        $sql = "SELECT * FROM item WHERE (title LIKE :query OR description LIKE :query) AND status = 'Active'";
+        $statement = $this->db->query($sql, ['query' => "%$query%"]);
+        return $statement->fetchAll();
+    }
 
 
 
@@ -100,20 +100,16 @@ class Item
     public function findActiveDuplicate(int $sellerId, string $title): bool
     {
         $sql = "SELECT COUNT(*) FROM item WHERE seller_id = :seller_id AND LOWER(TRIM(title)) = LOWER(TRIM(:title)) AND status = 'Active'";
-        
+
         $statement = $this->db->query($sql, [
             'seller_id' => $sellerId,
             'title' => $title
         ]);
-        
+
         // fetchColumn() gets the value of the first column (the COUNT).
         // If the count is greater than 0, a duplicate exists.
         return $statement->fetchColumn() > 0;
     }
-
-
-
-
 
     /**
      * Updates the current_bid field in the item table.
@@ -127,7 +123,9 @@ class Item
                 'item_id' => $itemId
             ]);
             return true;
-        } catch (\PDOException $e) { return false; }
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 
 
@@ -144,7 +142,7 @@ class Item
         return $statement->fetchAll();
     }
 
-    
+
     /**
      * Finds all completed items sold by a specific seller, along with the winning price.
      * @param int $sellerId
@@ -159,5 +157,31 @@ class Item
                 ORDER BY i.auction_end DESC";
         $statement = $this->db->query($sql, ['seller_id' => $sellerId]);
         return $statement->fetchAll();
+    }
+
+    public function deleteItembyId(int $itemId): bool
+    {
+        $sql = "DELETE FROM item WHERE item_id = :item_id";
+        $this->db->query($sql, ['item_id' => $itemId]);
+        return true;
+    }
+
+    public function update(int $itemId, string $title, string $description, float $startingBid, string $auctionEnd, string $category): bool
+    {
+        try {
+            $sql = "UPDATE item SET title = :title, description = :description, starting_bid = :starting_bid, auction_end = :auction_end, category = :category WHERE item_id = :item_id";
+            $this->db->query($sql, [
+                'item_id' => $itemId,
+                'title' => $title,
+                'description' => $description,
+                'starting_bid' => $startingBid,
+                'auction_end' => $auctionEnd,
+                'category' => $category
+            ]);
+            return true;
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return false;
+        }
     }
 }
