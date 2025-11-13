@@ -35,10 +35,10 @@ class User
      */
     public function create(string $firstName, string $username, string $email, string $passwordHash): bool
     {
-        // This line (line 23) will now work because $this->db is a valid object
+
         try {
             $sql = "INSERT INTO user (first_name, username, email, password_hash) VALUES (:first_name, :username, :email, :password_hash)";
-            
+
             $this->db->query($sql, [
                 'first_name' => $firstName,
                 'username' => $username,
@@ -53,7 +53,7 @@ class User
             return false;
         }
     }
-    
+
     /**
      * Finds a single user by their email or username.
      *
@@ -63,15 +63,15 @@ class User
     public function findByEmailOrUsername(string $emailOrUsername)
     {
         $sql = "SELECT * FROM user WHERE email = :identifier OR username = :identifier";
-        
+
         $statement = $this->db->query($sql, ['identifier' => $emailOrUsername]);
-        
+
         return $statement->fetch();
     }
 
 
 
-    
+
     /**
      * Finds a single user by their ID.
      * @param int $userId
@@ -83,6 +83,4 @@ class User
         $statement = $this->db->query($sql, ['user_id' => $userId]);
         return $statement->fetch();
     }
-
-    
 }

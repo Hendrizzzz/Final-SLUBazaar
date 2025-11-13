@@ -107,6 +107,17 @@ class AuthController
         require __DIR__ . '/../views/user/user-landing-page.php'; // the same as landing page
     }
     
+    /**
+     * Logs out the user.
+     */
+    public function logout(): void
+    {
+        
+        unset($_SESSION['user_id'], $_SESSION['username']);
+        
+        header('Location: /');
+        exit();
+    }
     
    
 }

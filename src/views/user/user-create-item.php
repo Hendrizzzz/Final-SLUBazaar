@@ -29,6 +29,15 @@
         <main class="content-wrapper">
             <div class="background-overlay"></div>
             <div class="content">
+                <?php 
+                    $errorMessage = $_SESSION['flash_error'] ?? null;
+                    unset($_SESSION['flash_error']);
+                ?>
+                <?php if ($errorMessage): ?>
+                    <div class="alert alert-error" style="margin-bottom: 20px;">
+                        <?= htmlspecialchars($errorMessage) ?>
+                    </div>
+                <?php endif; ?>
                 <header class="page-header">
                     <h1>SLU Bazaar</h1>
                     <p>The official marketplace of Saint Louis University.</p>
