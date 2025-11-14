@@ -35,7 +35,7 @@
 /* }
 .star-rating .fa-star {
     /* Full star style */
-} */
+}
 .star-rating .far.fa-star {
     color: var(--medium-grey); /* Empty star style */
 }

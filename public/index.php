@@ -63,7 +63,7 @@ $router->addRoute('POST', '/items/delete', ['Controllers\UserController', 'delet
 // Admin Routes
 $router->addRoute('GET', '/admin/overview', ['Controllers\AdminController', 'overview']);
 $router->addRoute('GET', '/admin/users', ['Controllers\AdminController', 'users']);
-$router->addRoute('GET', '/admin/listings', ['Contro..dminController', 'reports']);
+$router->addRoute('GET', '/admin/listings', ['Controller\AdminController', 'reports']);
 $router->addRoute('GET', '/admin/analytics', ['Controllers\AdminController', 'analytics']);
 
 
